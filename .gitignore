@@ -1,0 +1,16 @@
+node_modules/
+cache/
+artifacts/
+coverage/
+coverage.json
+typechain/
+typechain-types/
+.env
+.env.local
+deployments/hardhat.json
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+*.log
+.DS_Store

@@ -1,0 +1,20 @@
+{
+  "address": "0xf206100780e987311d4f534c29EE5C6d4DD880c4",
+  "chainId": 11155111,
+  "network": "sepolia",
+  "deployer": "0x6E0A53428Eb6f4d6af9D2a5FAc288b94f30f699a",
+  "owners": [
+    "0x6E0A53428Eb6f4d6af9D2a5FAc288b94f30f699a",
+    "0xee69C9701394e48A8b7Ad859575c6FcEef0b3F38",
+    "0x9E9c328dC68A45408432d02a5AE6345619149489"
+  ],
+  "guardians": [
+    "0x6E0A53428Eb6f4d6af9D2a5FAc288b94f30f699a"
+  ],
+  "smallThreshold": "2",
+  "largeThreshold": "3",
+  "largeAmountThreshold": "100000000000000000",
+  "cooldownPeriod": "120",
+  "deployedAt": "2026-10-21T13:18:00.000Z",
+  "note": "Active vault with funds. Ignore later accidental deploy 0x6F85278739fa9a9f3E4034c759114E2E8253ac23"
+}
