@@ -2,6 +2,24 @@
 
 CDS528 小组项目：**带策略的共享托管多签钱包**（Ethereum Sepolia）。
 
+## 最短快速开始
+
+合约已部署在 Sepolia。陌生人按下面即可跑通（跳过重新部署）：
+
+```powershell
+git clone https://github.com/你的用户名/仓库名.git
+cd 仓库名
+npm install
+npm run frontend:install
+npm run compile
+npm test
+npm run frontend:dev
+```
+
+浏览器打开 http://localhost:3000 ，MetaMask 切到 **Sepolia**，连接 Owner 钱包即可演示。
+
+---
+
 ## 创新点
 
 1. **金额分级阈值** — 小额低门槛，大额高门槛  
@@ -26,9 +44,10 @@ Solidity · OpenZeppelin · Hardhat · Next.js · wagmi/viem · MetaMask · Sepo
 | 小额 / 大额阈值 | 2 / 3 |
 | 大额线 | 0.1 ETH |
 | 冷却 | 120 秒 |
+| **Etherscan Verify** | **已验证** |
 
-Etherscan：  
-https://sepolia.etherscan.io/address/0xf206100780e987311d4f534c29EE5C6d4DD880c4  
+Etherscan（源码）：  
+https://sepolia.etherscan.io/address/0xf206100780e987311d4f534c29EE5C6d4DD880c4#code  
 
 > 不要随意再跑 `npm run deploy:sepolia`。每部署一次都会生成**新空合约**，前端地址也会被改掉；若误部署，把 `frontend/src/lib/contracts.ts` 改回上表地址即可。
 
@@ -50,11 +69,11 @@ deployments/sepolia.json             # 当前部署信息
 
 ## 一、环境准备
 
-在项目根目录下
+```powershell
 npm install
 npm run frontend:install
 copy .env.example .env
-
+```
 
 编辑 `.env`（**不要提交到 Git**）：
 
@@ -62,6 +81,7 @@ copy .env.example .env
 |---|---|
 | `PRIVATE_KEY` | 部署账户（通常 Owner1）私钥 |
 | `SEPOLIA_RPC_URL` | Sepolia RPC，可用公共节点 |
+| `ETHERSCAN_API_KEY` | Etherscan API Key（做合约 Verify 时需要） |
 | `OWNERS` | 三个 Owner 地址，逗号分隔 |
 | `GUARDIANS` | 监护人，建议填 Owner1 |
 | `SMALL_THRESHOLD` / `LARGE_THRESHOLD` | 演示用 `2` / `3` |
@@ -92,11 +112,24 @@ npm run deploy:sepolia
 
 成功后会更新 `deployments/sepolia.json` 与前端 `MULTISIG_ADDRESS`。
 
-可选验证：
+---
+
+## 三-B、合约验证（Etherscan Verify）
+
+**当前状态：已验证。**  
+源码页：https://sepolia.etherscan.io/address/0xf206100780e987311d4f534c29EE5C6d4DD880c4#code  
+
+若以后重新部署了新合约，需要再验证一次：
+
+1. 在 https://etherscan.io/myapikey 创建 API Key，写入 `.env` 的 `ETHERSCAN_API_KEY`  
+2. 确认 `deployments/sepolia.json` 是新地址  
+3. 执行：
 
 ```powershell
 npx hardhat run scripts/verify.js --network sepolia
 ```
+
+常见提示：`Already Verified` 表示已验证过，可直接用链接。
 
 ---
 
