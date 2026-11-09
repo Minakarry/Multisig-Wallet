@@ -69,14 +69,40 @@ input {
 
 .hero {
   display: grid;
-  gap: 1.25rem;
-  padding: 1.5rem 0 2rem;
+  gap: 1.15rem;
+  padding: 1.25rem 0 1.75rem;
   animation: rise 0.7s ease both;
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.topbar-brand {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.topbar-auth {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.auth-address {
+  font-variant-numeric: tabular-nums;
 }
 
 .brand {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
   line-height: 0.95;
   letter-spacing: -0.03em;
   margin: 0;
@@ -87,11 +113,55 @@ input {
 }
 
 .lede {
-  max-width: 38rem;
+  max-width: 40rem;
   margin: 0;
   color: var(--ink-soft);
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   line-height: 1.55;
+}
+
+.chrome-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  align-items: stretch;
+}
+
+.chrome-block {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--line);
+}
+
+.chrome-nav {
+  flex: 1 1 240px;
+}
+
+.chrome-role {
+  flex: 0 1 auto;
+  min-width: 200px;
+}
+
+.chrome-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.role-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.role-main {
+  font-weight: 700;
 }
 
 .toolbar {
@@ -104,9 +174,9 @@ input {
 .nav-tabs {
   display: inline-flex;
   gap: 0.35rem;
-  padding: 0.3rem;
+  padding: 0.25rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid var(--line);
 }
 

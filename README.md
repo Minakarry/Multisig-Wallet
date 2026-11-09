@@ -18,17 +18,17 @@ Solidity · OpenZeppelin · Hardhat · Next.js · wagmi/viem · MetaMask · Sepo
 
 | 项 | 值 |
 |---|---|
-| **金库合约** | `0xxxxxxxxxxxxxxxxxxxx` |
-| Owner 1 | `0xxxxxxxxxxxxxxxxxxx` |
-| Owner 2 | `0xxxxxxxxxxxxxxxxxxxx` |
-| Owner 3 | `0xxxxxxxxxxxxxxxxxxxx` |
+| **金库合约** | `0xf206100780e987311d4f534c29EE5C6d4DD880c4` |
+| Owner 1 | `0x6E0A53428Eb6f4d6af9D2a5FAc288b94f30f699a` |
+| Owner 2 | `0xee69C9701394e48A8b7Ad859575c6FcEef0b3F38` |
+| Owner 3 | `0x9E9c328dC68A45408432d02a5AE6345619149489` |
 | Guardian | Owner 1（同上） |
 | 小额 / 大额阈值 | 2 / 3 |
 | 大额线 | 0.1 ETH |
 | 冷却 | 120 秒 |
 
 Etherscan：  
-https://sepolia.etherscan.io/address/0xxxxxxxxxxxxxxx  
+https://sepolia.etherscan.io/address/0xf206100780e987311d4f534c29EE5C6d4DD880c4  
 
 > 不要随意再跑 `npm run deploy:sepolia`。每部署一次都会生成**新空合约**，前端地址也会被改掉；若误部署，把 `frontend/src/lib/contracts.ts` 改回上表地址即可。
 
@@ -131,10 +131,10 @@ import "@openzeppelin/contracts@5.0.2/utils/Pausable.sol";
 8. 粘贴当前金库地址：
 
 ```text
-0xxxxxxxxxxxxx
+0xf206100780e987311d4f534c29EE5C6d4DD880c4
 ```
 
-9. 合约类型选 `TieredMultisigWallet`（如有选项，没有就不管）→ 确认添加  
+9. 合约类型选 `TieredMultisigWallet`（如有选项）→ 确认添加  
 10. 列表里出现合约后点开，即可调用函数  
 
 | 目的 | 函数 | 参数 |
@@ -169,7 +169,7 @@ import "@openzeppelin/contracts@5.0.2/utils/Pausable.sol";
 回到 **Deploy** 标签，填构造函数后点 Deploy。参数示例：
 
 ```text
-["0xxxxxxxxxxxxxxxxxxxxxxxxx","0xxxxxxxxxxxxxxxxxxxxxxxxxxx","0xxxxxxxxxxxxxxxxxxxxxxxxx"], 2, 3, 100000000000000000, 120, ["0xxxxxxxxxxxxxxxxxxxxxxxxx"]
+["0x6E0A53428Eb6f4d6af9D2a5FAc288b94f30f699a","0xee69C9701394e48A8b7Ad859575c6FcEef0b3F38","0x9E9c328dC68A45408432d02a5AE6345619149489"], 2, 3, 100000000000000000, 120, ["0x6E0A53428Eb6f4d6af9D2a5FAc288b94f30f699a"]
 ```
 
 Deploy 成功后：复制新地址 → 写入 `frontend/src/lib/contracts.ts` → 给**新地址**充值。  

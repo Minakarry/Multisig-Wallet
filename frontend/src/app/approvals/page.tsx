@@ -16,32 +16,36 @@ export default function ApprovalsPage() {
 
       {!m.configured && (
         <div className="banner" style={{ marginBottom: "1rem" }}>
-          合约地址尚未配置。
+          Contract address is not configured.
         </div>
       )}
 
       {m.paused && (
         <div className="banner" style={{ marginBottom: "1rem" }}>
-          金库已暂停。
+          Vault is paused.
           {m.canVoteUnpause
-            ? ` Owner 投票解冻进度：${m.unpauseVoteCount?.toString() ?? "0"} / ${m.largeThreshold?.toString() ?? "—"}`
-            : " 等待 Owner 投票解冻。"}
+            ? ` Owner unpause votes: ${m.unpauseVoteCount?.toString() ?? "0"} / ${m.largeThreshold?.toString() ?? "—"}`
+            : " Waiting for Owners to vote for unpause."}
         </div>
       )}
 
       {!m.isConnected && (
         <section className="panel">
-          <h2>需要连接钱包</h2>
-          <p className="muted">连接后才会按角色显示审批或安全功能。</p>
+          <h2>Connect Wallet</h2>
+          <p className="muted">
+            Connect MetaMask to use approval or security features for your role.
+          </p>
         </section>
       )}
 
       {m.isConnected && !allowed && (
         <section className="panel">
-          <h2>无权限访问</h2>
-          <p className="muted">你不是 Owner 也不是 Guardian，无法使用此页功能。</p>
+          <h2>Access Denied</h2>
+          <p className="muted">
+            You are neither an Owner nor a Guardian, so this page has no actions for you.
+          </p>
           <Link href="/" className="btn btn-secondary">
-            ← 回金库总览
+            ← Back to Vault Overview
           </Link>
         </section>
       )}
@@ -49,16 +53,16 @@ export default function ApprovalsPage() {
       {allowed && (
         <>
           <section className="panel" style={{ marginBottom: "1rem" }}>
-            <h2>{m.canApprove ? "管理操作" : "Guardian 安全操作"}</h2>
+            <h2>{m.canApprove ? "Admin Actions" : "Guardian Security"}</h2>
             <p className="muted">
-              金库余额{" "}
+              Vault balance{" "}
               {m.balance
                 ? `${Number(formatEther(m.balance.value)).toFixed(4)} ETH`
                 : "—"}
-              。
+              .{" "}
               {m.canApprove
-                ? "下方可审批提案；发起新转账请回转账页。"
-                : "你只能暂停金库；转账与确认需由 Owner 完成。"}
+                ? "Review proposals below. Submit new transfers from the Transfer page."
+                : "You can only pause the vault. Transfers and confirmations require Owners."}
             </p>
             <div className="tx-actions" style={{ marginTop: "0.85rem" }}>
               {m.canPause && !m.paused && (
@@ -70,7 +74,7 @@ export default function ApprovalsPage() {
                     m.writeContract({ ...contractConfig, functionName: "pause" });
                   }}
                 >
-                  紧急暂停
+                  Emergency Pause
                 </button>
               )}
               {m.canVoteUnpause && m.paused && (
@@ -85,26 +89,28 @@ export default function ApprovalsPage() {
                     });
                   }}
                 >
-                  投票解冻
+                  Vote to Unpause
                 </button>
               )}
               <Link href="/" className="btn btn-secondary">
-                {m.canTransfer ? "← 回转账页" : "← 回金库总览"}
+                {m.canTransfer ? "← Back to Transfer" : "← Back to Vault Overview"}
               </Link>
             </div>
           </section>
 
           <section className="panel">
-            <h2>{m.canApprove ? "待审批提案" : "提案一览（只读）"}</h2>
+            <h2>{m.canApprove ? "Pending Proposals" : "Proposals (Read-only)"}</h2>
             {!m.canApprove && (
               <p className="muted" style={{ marginTop: 0 }}>
-                Guardian 只能查看提案状态，不能确认或执行。
+                Guardians can view proposal status but cannot confirm or execute.
               </p>
             )}
             {m.transactions.length === 0 ? (
               <p className="muted">
-                还没有提案。
-                {m.canTransfer ? "请先到转账页提交。" : "等待 Owner 发起转账提案。"}
+                No proposals yet.
+                {m.canTransfer
+                  ? " Submit one from the Transfer page."
+                  : " Waiting for an Owner to submit a transfer."}
               </p>
             ) : (
               <div className="tx-list">
@@ -129,9 +135,10 @@ export default function ApprovalsPage() {
                         <span className={`pill ${st.cls}`}>{st.label}</span>
                       </div>
                       <p className="muted">
-                        确认 {tx.numConfirmations.toString()} / {tx.required.toString()}
-                        {inCooldown ? ` · 冷却剩余 ${remain}s` : ""}
-                        {tx.iConfirmed ? " · 你已确认" : ""}
+                        Confirmations {tx.numConfirmations.toString()} /{" "}
+                        {tx.required.toString()}
+                        {inCooldown ? ` · Cooldown ${remain}s left` : ""}
+                        {tx.iConfirmed ? " · You confirmed" : ""}
                       </p>
                       {m.canApprove && (
                         <div className="tx-actions">
@@ -148,7 +155,7 @@ export default function ApprovalsPage() {
                                 });
                               }}
                             >
-                              确认
+                              Confirm
                             </button>
                           )}
                           {!tx.executed && !tx.vetoed && tx.iConfirmed && (
@@ -164,7 +171,7 @@ export default function ApprovalsPage() {
                                 });
                               }}
                             >
-                              撤销确认
+                              Revoke
                             </button>
                           )}
                           {inCooldown && (
@@ -180,7 +187,7 @@ export default function ApprovalsPage() {
                                 });
                               }}
                             >
-                              否决
+                              Veto
                             </button>
                           )}
                           {tx.canExecute && (
@@ -196,7 +203,7 @@ export default function ApprovalsPage() {
                                 });
                               }}
                             >
-                              执行
+                              Execute
                             </button>
                           )}
                         </div>
