@@ -16,18 +16,18 @@ export default function TransferPage() {
   function submitProposal() {
     if (!m.requireReady()) return;
     if (!m.canTransfer) {
-      m.setToast("仅 Owner 可发起转账提案");
+      m.setToast("Only Owners can submit transfer proposals");
       return;
     }
     if (!isAddress(to)) {
-      m.setToast("收款地址无效");
+      m.setToast("Invalid recipient address");
       return;
     }
     let value: bigint;
     try {
       value = parseEther(amount || "0");
     } catch {
-      m.setToast("金额无效");
+      m.setToast("Invalid amount");
       return;
     }
     m.writeContract({
@@ -43,13 +43,13 @@ export default function TransferPage() {
 
       {!m.configured && (
         <div className="banner" style={{ marginBottom: "1rem" }}>
-          合约地址尚未配置。
+          Contract address is not configured.
         </div>
       )}
 
       {m.paused && m.canTransfer && (
         <div className="banner" style={{ marginBottom: "1rem" }}>
-          金库已暂停，暂时无法发起新提案。请到审批页投票解冻。
+          Vault is paused. New proposals are blocked. Go to Approvals to vote for unpause.
         </div>
       )}
 
@@ -58,18 +58,18 @@ export default function TransferPage() {
 
         {m.canTransfer ? (
           <div className="panel">
-            <h2>发起转账</h2>
+            <h2>New Transfer</h2>
             <div className="form">
               <div className="field">
-                <label>收款地址</label>
+                <label>Recipient</label>
                 <input
-                  placeholder="0x...（例如 Account 2）"
+                  placeholder="0x... (e.g. Account 2)"
                   value={to}
                   onChange={(e) => setTo(e.target.value.trim())}
                 />
               </div>
               <div className="field">
-                <label>金额 (ETH)</label>
+                <label>Amount (ETH)</label>
                 <input
                   placeholder="0.05"
                   value={amount}
@@ -77,41 +77,48 @@ export default function TransferPage() {
                 />
               </div>
               <p className="muted">
-                金库余额为 0 时，请先用 MetaMask「发送」向合约充值。收款地址请填其他账户，不要填合约自己。
+                If vault balance is 0, first send SepoliaETH to the contract via MetaMask.
+                Use another account as recipient — not the contract itself.
               </p>
               <button
                 className="btn btn-primary"
                 disabled={m.busy || m.paused}
                 onClick={submitProposal}
               >
-                {m.busy ? "处理中…" : "提交转账提案"}
+                {m.busy ? "Processing…" : "Submit Proposal"}
               </button>
               <Link
                 href="/approvals"
                 className="btn btn-secondary"
                 style={{ textAlign: "center" }}
               >
-                去审批确认页 →
+                Go to Approvals →
               </Link>
             </div>
           </div>
         ) : (
           <div className="panel">
-            <h2>权限说明</h2>
+            <h2>Permissions</h2>
             {!m.isConnected && (
-              <p className="muted">连接钱包后，将按 Owner / Guardian / 访客显示对应功能。</p>
+              <p className="muted">
+                Connect a wallet to see Owner / Guardian / Visitor features.
+              </p>
             )}
             {m.role === "guardian" && (
               <>
-                <p className="muted">Guardian 不能发起或确认转账，只能紧急冻结金库。</p>
+                <p className="muted">
+                  Guardians cannot submit or confirm transfers. They can only pause the vault
+                  in an emergency.
+                </p>
                 <Link href="/approvals" className="btn btn-primary">
-                  前往安全控制 →
+                  Go to Security →
                 </Link>
               </>
             )}
             {m.role === "visitor" && (
               <p className="muted">
-                当前账户不在 Owners / Guardians 列表中，因此不显示转账与审批操作。
+                This account is not in the Owners or Guardians list, so transfer and approval
+                actions are hidden.
               </p>
             )}
           </div>

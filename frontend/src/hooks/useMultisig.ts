@@ -32,14 +32,14 @@ export type TxRow = {
 };
 
 export function statusOf(tx: TxRow, now: number) {
-  if (tx.executed) return { label: "已执行", cls: "ok" as const };
-  if (tx.vetoed) return { label: "已否决", cls: "danger" as const };
+  if (tx.executed) return { label: "Executed", cls: "ok" as const };
+  if (tx.vetoed) return { label: "Vetoed", cls: "danger" as const };
   if (tx.numConfirmations < tx.required)
-    return { label: "待确认", cls: "warn" as const };
+    return { label: "Pending", cls: "warn" as const };
   if (tx.cooldownArmed && now < Number(tx.cooldownEnd))
-    return { label: "冷却中", cls: "warn" as const };
-  if (tx.canExecute) return { label: "可执行", cls: "ok" as const };
-  return { label: "等待中", cls: "warn" as const };
+    return { label: "Cooldown", cls: "warn" as const };
+  if (tx.canExecute) return { label: "Ready", cls: "ok" as const };
+  return { label: "Waiting", cls: "warn" as const };
 }
 
 export function useMultisig() {
@@ -67,7 +67,7 @@ export function useMultisig() {
 
   useEffect(() => {
     if (isSuccess) {
-      setToast("链上交易已成功（请点刷新查看最新状态）");
+      setToast("On-chain transaction succeeded. Click Refresh for the latest status.");
       reset();
     }
   }, [isSuccess, reset]);
@@ -204,15 +204,15 @@ export function useMultisig() {
 
   function requireReady() {
     if (!configured) {
-      setToast("请先在 frontend/src/lib/contracts.ts 填入合约地址");
+      setToast("Set MULTISIG_ADDRESS in frontend/src/lib/contracts.ts first");
       return false;
     }
     if (!isConnected) {
-      setToast("请先连接 MetaMask");
+      setToast("Connect MetaMask first");
       return false;
     }
     if (wrongNetwork) {
-      setToast("请切换到 Sepolia");
+      setToast("Switch to Sepolia");
       return false;
     }
     return true;
